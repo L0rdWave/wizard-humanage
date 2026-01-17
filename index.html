@@ -134,9 +134,11 @@
                         <label style="font-weight: normal;"><input type="radio" name="confidencial" value="si" onclick="toggleNominaExplicacion(true)"> Sí</label>
                     </div>
                     
-                    <div id="boxNominaExplicacion" style="display: none; background: #fff5f8; padding: 15px; border-radius: 8px; border: 1px solid #2d44bb; margin-top: 10px;">
+                    <div id="boxNominaExplicacion" style="display: none; background: #fff5f8; padding: 15px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 10px;">
                         <p style="font-size: 0.9em; margin: 0; color: #172b4d;">
-                            <strong>Configuración de Nómina:</strong> Al marcar SÍ, crearemos la etiqueta <strong>'NOMINA'</strong> para segmentar el acceso a gestores específicos.
+                            <strong>Configuración de Nómina:</strong> Al marcar SÍ, crearemos la etiqueta <strong>'NOMINA'</strong> con valores: 
+                            <br>• <strong>CONFIDENCIAL:</strong> Solo visible para gestores autorizados.
+                            <br>• <strong>NO CONFIDENCIAL:</strong> Visible para gestores generales.
                         </p>
                     </div>
                 </div>

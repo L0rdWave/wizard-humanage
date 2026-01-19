@@ -19,18 +19,18 @@
         </header>
 
         <form id="deliveryForm">
-            <div class="step">
-                <h3>1. Responsable y Empresa</h3>
-                <div class="help-box">
-                    <strong>Nota:</strong> El responsable es la persona que gestionará la plataforma (Gestor de Accesos), no necesariamente quien completa este formulario.
-                </div>
-                <div class="row">
-                    <div class="input-group"><label>Nombre*</label><input type="text" id="nombre" required></div>
-                    <div class="input-group"><label>Apellido*</label><input type="text" id="apellido" required></div>
-                </div>
-                <div class="input-group"><label>Correo Electrónico*</label><input type="email" id="correo" required></div>
-                <div class="input-group"><label>Nombre de la Empresa / Grupo*</label><input type="text" id="empresa" required></div>
-            </div>
+           <div class="step">
+    <h3>1. Responsable y Empresa</h3>
+    <div class="help-box">
+        <strong>Nota:</strong> El responsable es la persona que gestionará la plataforma (Gestor de Accesos), no necesariamente quien completa este formulario.
+    </div>
+    <div class="row">
+        <div class="input-group"><label>Nombre*</label><input type="text" id="nombre" name="nombre" required></div>
+        <div class="input-group"><label>Apellido*</label><input type="text" id="apellido" name="apellido" required></div>
+    </div>
+    <div class="input-group"><label>Correo Electrónico*</label><input type="email" id="correo" name="correo" required></div>
+    <div class="input-group"><label>Nombre de la Empresa / Grupo*</label><input type="text" id="empresa" name="empresa" required></div>
+</div>
 
           <div class="step">
     <h3>2. Configuración de Empresa y Entidades</h3>
@@ -74,8 +74,9 @@
 </div>
 
             <div class="step">
-                <h3>3. Clasificación y Filtros (Etiquetas)</h3>
-                <div class="help-box">
+    <h3>3. Clasificación y Filtros (Etiquetas)</h3>
+    
+    <div class="help-box">
         <strong>¿Para qué sirven?</strong>
         <ul style="margin-top: 10px; padding-left: 20px;">
             <li><strong>Buscador Rápido:</strong> En lugar de revolver carpeta por carpeta, escribís un sector y el sistema te trae todo al toque.</li>
@@ -84,59 +85,59 @@
         </ul>
     </div>
 
-                <div class="help-box">
-                    <strong>Regla de Oro:</strong> Los títulos de las columnas en su Excel no deben usar caracteres especiales, tildes ni 'Ñ'. Ej: AREA, SUCURSAL.
-                </div>
-                
-                <div class="example-section">
-                    <button type="button" class="btn-outline-lg" onclick="toggleElement('tablaEjemplo')" style="width: 100%; padding: 12px; cursor: pointer; border: 2px solid var(--accent); background: transparent; color: var(--accent); font-weight: bold; border-radius: 8px;">
-                        🔍 Ver Ejemplo de Estructura de Etiquetas (XLS)
-                    </button>
-                    
-                    <div id="tablaEjemplo" class="example-card" style="display: none; margin-top: 15px; border: 1px solid #c0c0c0; padding: 25px; background: #fdfdfd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                        <p style="margin-bottom: 15px; color: #333;"><strong>Estructura visual esperada en su planilla:</strong></p>
-                        <div class="table-responsive">
-                            <table class="demo-table" style="width: 100%; border-collapse: collapse; font-family: 'Segoe UI', Arial, sans-serif;">
-                                <thead>
-                                    <tr style="background: #217346; color: white;">
-                                        <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">AREA</th>
-                                        <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">SUCURSAL</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="background: white; color: #444;">
-                                    <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">VENTAS</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CABA</td></tr>
-                                    <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">IT</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CORDOBA</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p style="margin-top: 15px; color: #d9534f; font-size: 0.9em; font-style: italic;">
-                            * No incluya filas vacías ni formatos de colores en el archivo final.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="input-group" style="margin-top: 20px;">
-                    <label>Carga de Definición de Etiquetas (XLS/XLSX)*</label>
-                    <p class="help-text">Suba el archivo con los nombres de etiquetas y sus valores permitidos.</p>
-                    <input type="file" id="archivoEtiquetas" accept=".xlsx, .xls" required>
-                </div>
-
-                <div class="input-group nom-conf">
-                    <label>¿Posee nómina confidencial?</label>
-                    <div class="radio-group" style="display: flex; gap: 20px; margin-bottom: 10px;">
-                        <label style="font-weight: normal;"><input type="radio" name="confidencial" value="no" checked onclick="toggleNominaExplicacion(false)"> No</label>
-                        <label style="font-weight: normal;"><input type="radio" name="confidencial" value="si" onclick="toggleNominaExplicacion(true)"> Sí</label>
-                    </div>
-                    
-                    <div id="boxNominaExplicacion" style="display: none; background: #fff5f8; padding: 15px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 10px;">
-                        <p style="font-size: 0.9em; margin: 0; color: #172b4d;">
-                            <strong>Configuración de Nómina:</strong> Al marcar SÍ, crearemos la etiqueta <strong>'NOMINA'</strong> con valores: 
-                            <br>• <strong>CONFIDENCIAL:</strong> Solo visible para gestores autorizados.
-                            <br>• <strong>NO CONFIDENCIAL:</strong> Visible para gestores generales.
-                        </p>
-                    </div>
-                </div>
+    <div class="help-box">
+        <strong>Regla de Oro:</strong> Los títulos de las columnas en su Excel no deben usar caracteres especiales, tildes ni 'Ñ'. Ej: AREA, SUCURSAL.
+    </div>
+    
+    <div class="example-section">
+        <button type="button" class="btn-outline-lg" onclick="toggleElement('tablaEjemplo')" style="width: 100%; padding: 12px; cursor: pointer; border: 2px solid var(--accent); background: transparent; color: var(--accent); font-weight: bold; border-radius: 8px;">
+            🔍 Ver Ejemplo de Estructura de Etiquetas (XLS)
+        </button>
+        
+        <div id="tablaEjemplo" class="example-card" style="display: none; margin-top: 15px; border: 1px solid #c0c0c0; padding: 25px; background: #fdfdfd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <p style="margin-bottom: 15px; color: #333;"><strong>Estructura visual esperada en su planilla:</strong></p>
+            <div class="table-responsive">
+                <table class="demo-table" style="width: 100%; border-collapse: collapse; font-family: 'Segoe UI', Arial, sans-serif;">
+                    <thead>
+                        <tr style="background: #217346; color: white;">
+                            <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">AREA</th>
+                            <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">SUCURSAL</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background: white; color: #444;">
+                        <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">VENTAS</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CABA</td></tr>
+                        <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">IT</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CORDOBA</td></tr>
+                    </tbody>
+                </table>
             </div>
+            <p style="margin-top: 15px; color: #d9534f; font-size: 0.9em; font-style: italic;">
+                * No incluya filas vacías ni formatos de colores en el archivo final.
+            </p>
+        </div>
+    </div>
+
+    <div class="input-group" style="margin-top: 20px;">
+        <label>Carga de Definición de Etiquetas (XLS/XLSX)</label> 
+        <p class="help-text">Suba el archivo con los nombres de etiquetas y sus valores permitidos (Opcional).</p>
+        <input type="file" id="archivoEtiquetas" name="archivoEtiquetas" accept=".xlsx, .xls"> 
+    </div>
+
+    <div class="input-group nom-conf">
+        <label>¿Posee nómina confidencial?</label>
+        <div class="radio-group" style="display: flex; gap: 20px; margin-bottom: 10px;">
+            <label style="font-weight: normal;"><input type="radio" name="confidencial" value="no" checked onclick="toggleNominaExplicacion(false)"> No</label>
+            <label style="font-weight: normal;"><input type="radio" name="confidencial" value="si" onclick="toggleNominaExplicacion(true)"> Sí</label>
+        </div>
+        
+        <div id="boxNominaExplicacion" style="display: none; background: #fff5f8; padding: 15px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 10px;">
+            <p style="font-size: 0.9em; margin: 0; color: #172b4d;">
+                <strong>Configuración de Nómina:</strong> Al marcar SÍ, crearemos la etiqueta <strong>'NOMINA'</strong> con valores: 
+                <br>• <strong>CONFIDENCIAL:</strong> Solo visible para gestores autorizados.
+                <br>• <strong>NO CONFIDENCIAL:</strong> Visible para gestores generales.
+            </p>
+        </div>
+    </div>
+</div>
 
             <div class="step">
                 <h3>4. Métodos de Firma</h3>
@@ -202,21 +203,21 @@
             </div>
 
             <div class="step">
-                <h3>5. Tipos de Liquidaciones</h3>
-                <div class="help-box">
-                    <strong>Nota:</strong> Seleccione todos los tipos de liquidaciones que utiliza su empresa. Esto nos ayudará a configurar correctamente la plataforma.
-                </div>
-                <div class="checkbox-grid">
-                    <label class="check-item"><input type="checkbox"> Recibo de Sueldo (Mensual)</label>
-                    <label class="check-item"><input type="checkbox"> Otros Conceptos (Quincenas)</label>
-                    <label class="check-item"><input type="checkbox"> SAC (Aguinaldo)</label>
-                    <label class="check-item"><input type="checkbox"> Vacaciones</label>
-                    <label class="check-item"><input type="checkbox"> Bonos</label>
-                    <label class="check-item"><input type="checkbox"> Liquidación Final</label>
-                    <label class="check-item"><input type="checkbox"> Ganancias (Anual F.1357)</label>
-                    <label class="check-item"><input type="checkbox"> Ganancias (Anticipo Mensual)</label>
-                </div>
-            </div>
+    <h3>5. Tipos de Liquidaciones</h3>
+    <div class="help-box">
+        <strong>Nota:</strong> Seleccione todos los tipos de liquidaciones que utiliza su empresa. Esto nos ayudará a configurar correctamente la plataforma.
+    </div>
+    <div class="checkbox-grid">
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> Recibo de Sueldo (Mensual)</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> Otros Conceptos (Quincenas)</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> SAC (Aguinaldo)</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> Vacaciones</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq" > Bonos</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> Liquidación Final</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> Ganancias (Anual F.1357)</label>
+        <label class="check-item"><input type="checkbox" name="tipo_liq"> Ganancias (Anticipo Mensual)</label>
+    </div>
+</div>
 
             <div class="step">
                 <h3>6. Documentación Técnica</h3>

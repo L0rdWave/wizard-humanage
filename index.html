@@ -19,125 +19,124 @@
         </header>
 
         <form id="deliveryForm">
-           <div class="step">
-    <h3>1. Responsable y Empresa</h3>
-    <div class="help-box">
-        <strong>Nota:</strong> El responsable es la persona que gestionará la plataforma (Gestor de Accesos), no necesariamente quien completa este formulario.
-    </div>
-    <div class="row">
-        <div class="input-group"><label>Nombre*</label><input type="text" id="nombre" name="nombre" required></div>
-        <div class="input-group"><label>Apellido*</label><input type="text" id="apellido" name="apellido" required></div>
-    </div>
-    <div class="input-group"><label>Correo Electrónico*</label><input type="email" id="correo" name="correo" required></div>
-    <div class="input-group"><label>Nombre de la Empresa / Grupo*</label><input type="text" id="empresa" name="empresa" required></div>
-</div>
-
-          <div class="step">
-    <h3>2. Configuración de Empresa y Entidades</h3>
-    <div class="help-box">
-        <strong>Importante:</strong> Complete las Razones Sociales que componen su Grupo Empresarial. 
-        El sistema generará automáticamente las filas necesarias. El CUIT debe tener formato 30-XXXXXXXX-X.
-    </div>
-
-    <div class="input-group" style="margin-bottom: 20px; max-width: 300px;">
-        <label>¿Cuántas Razones Sociales desea configurar?*</label>
-        <select id="cantEmpresas" class="styled-select" onchange="generarFilasTabla()">
-    <option value="1">1 Empresa</option>
-    <option value="2">2 Empresas</option>
-    <option value="3">3 Empresas</option>
-    <option value="4">4 Empresas</option>
-    <option value="5">5 Empresas</option>
-    <option value="6">6 Empresas</option>
-    <option value="7">7 Empresas</option>
-    <option value="8">8 Empresas</option>
-    <option value="9">9 Empresas</option>
-    <option value="10">10 Empresas</option>
-</select>
-    </div>
-
-    <div class="rs-container">
-        <label>Razones Sociales del Grupo*</label>
-        <table class="input-table" id="tablaRS">
-            <thead>
-                <tr>
-                    <th style="width: 5%;">#</th>
-                    <th style="width: 35%;">Razón Social</th>
-                    <th style="width: 25%;">CUIT (Empresa)</th>
-                    <th style="width: 15%;">Cant. Emp.</th>
-                    <th style="width: 20%;">¿Lleva Logo?</th>
-                </tr>
-            </thead>
-            <tbody id="cuerpoTablaRS">
-                </tbody>
-        </table>
-    </div>
-</div>
+            <div class="step">
+                <h3>1. Responsable y Empresa</h3>
+                <div class="help-box">
+                    <strong>Nota:</strong> El responsable es la persona que gestionará la plataforma (Gestor de Accesos), no necesariamente quien completa este formulario.
+                </div>
+                <div class="row">
+                    <div class="input-group"><label>Nombre*</label><input type="text" id="nombre" name="nombre" required></div>
+                    <div class="input-group"><label>Apellido*</label><input type="text" id="apellido" name="apellido" required></div>
+                </div>
+                <div class="input-group"><label>Correo Electrónico*</label><input type="email" id="correo" name="correo" required></div>
+                <div class="input-group"><label>Nombre de la Empresa / Grupo*</label><input type="text" id="empresa" name="empresa" required></div>
+            </div>
 
             <div class="step">
-    <h3>3. Clasificación y Filtros (Etiquetas)</h3>
-    
-    <div class="help-box">
-        <strong>¿Para qué sirven?</strong>
-        <ul style="margin-top: 10px; padding-left: 20px;">
-            <li><strong>Buscador Rápido:</strong> En lugar de revolver carpeta por carpeta, escribís un sector y el sistema te trae todo al toque.</li>
-            <li><strong>Permisos por Sector:</strong> Podés definir que un jefe vea solo lo que tiene el rótulo de su área.</li>
-            <li><strong>Organización Automática:</strong> El sistema acomoda los archivos solos según el rótulo que le pusimos.</li>
-        </ul>
-    </div>
+                <h3>2. Configuración de Empresa y Entidades</h3>
+                <div class="help-box">
+                    <strong>Importante:</strong> Complete las Razones Sociales que componen su Grupo Empresarial. 
+                    El sistema generará automáticamente las filas necesarias. El CUIT debe tener formato 30-XXXXXXXX-X.
+                </div>
 
-    <div class="help-box">
-        <strong>Regla de Oro:</strong> Los títulos de las columnas en su Excel no deben usar caracteres especiales, tildes ni 'Ñ'. Ej: AREA, SUCURSAL.
-    </div>
-    
-    <div class="example-section">
-        <button type="button" class="btn-outline-lg" onclick="toggleElement('tablaEjemplo')" style="width: 100%; padding: 12px; cursor: pointer; border: 2px solid var(--accent); background: transparent; color: var(--accent); font-weight: bold; border-radius: 8px;">
-            🔍 Ver Ejemplo de Estructura de Etiquetas (XLS)
-        </button>
-        
-        <div id="tablaEjemplo" class="example-card" style="display: none; margin-top: 15px; border: 1px solid #c0c0c0; padding: 25px; background: #fdfdfd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <p style="margin-bottom: 15px; color: #333;"><strong>Estructura visual esperada en su planilla:</strong></p>
-            <div class="table-responsive">
-                <table class="demo-table" style="width: 100%; border-collapse: collapse; font-family: 'Segoe UI', Arial, sans-serif;">
-                    <thead>
-                        <tr style="background: #217346; color: white;">
-                            <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">AREA</th>
-                            <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">SUCURSAL</th>
-                        </tr>
-                    </thead>
-                    <tbody style="background: white; color: #444;">
-                        <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">VENTAS</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CABA</td></tr>
-                        <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">IT</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CORDOBA</td></tr>
-                    </tbody>
-                </table>
+                <div class="input-group" style="margin-bottom: 20px; max-width: 300px;">
+                    <label>¿Cuántas Razones Sociales desea configurar?*</label>
+                    <select id="cantEmpresas" class="styled-select" onchange="generarFilasTabla()">
+                        <option value="1">1 Empresa</option>
+                        <option value="2">2 Empresas</option>
+                        <option value="3">3 Empresas</option>
+                        <option value="4">4 Empresas</option>
+                        <option value="5">5 Empresas</option>
+                        <option value="6">6 Empresas</option>
+                        <option value="7">7 Empresas</option>
+                        <option value="8">8 Empresas</option>
+                        <option value="9">9 Empresas</option>
+                        <option value="10">10 Empresas</option>
+                    </select>
+                </div>
+
+                <div class="rs-container">
+                    <label>Razones Sociales del Grupo*</label>
+                    <table class="input-table" id="tablaRS">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">#</th>
+                                <th style="width: 35%;">Razón Social</th>
+                                <th style="width: 25%;">CUIT (Empresa)</th>
+                                <th style="width: 15%;">Cant. Emp.</th>
+                                <th style="width: 20%;">¿Lleva Logo?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaRS">
+                            </tbody>
+                    </table>
+                </div>
             </div>
-            <p style="margin-top: 15px; color: #d9534f; font-size: 0.9em; font-style: italic;">
-                * No incluya filas vacías ni formatos de colores en el archivo final.
-            </p>
-        </div>
-    </div>
 
-    <div class="input-group" style="margin-top: 20px;">
-        <label>Carga de Definición de Etiquetas (XLS/XLSX)</label> 
-        <p class="help-text">Suba el archivo con los nombres de etiquetas y sus valores permitidos (Opcional).</p>
-        <input type="file" id="archivoEtiquetas" name="archivoEtiquetas" accept=".xlsx, .xls"> 
-    </div>
+            <div class="step">
+                <h3>3. Clasificación y Filtros (Etiquetas)</h3>
+                <div class="help-box">
+                    <strong>¿Para qué sirven?</strong>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li><strong>Buscador Rápido:</strong> En lugar de revolver carpeta por carpeta, escribís un sector y el sistema te trae todo al toque.</li>
+                        <li><strong>Permisos por Sector:</strong> Podés definir que un jefe vea solo lo que tiene el rótulo de su área.</li>
+                        <li><strong>Organización Automática:</strong> El sistema acomoda los archivos solos según el rótulo que le pusimos.</li>
+                    </ul>
+                </div>
 
-    <div class="input-group nom-conf">
-        <label>¿Posee nómina confidencial?</label>
-        <div class="radio-group" style="display: flex; gap: 20px; margin-bottom: 10px;">
-            <label style="font-weight: normal;"><input type="radio" name="confidencial" value="no" checked onclick="toggleNominaExplicacion(false)"> No</label>
-            <label style="font-weight: normal;"><input type="radio" name="confidencial" value="si" onclick="toggleNominaExplicacion(true)"> Sí</label>
-        </div>
-        
-        <div id="boxNominaExplicacion" style="display: none; background: #fff5f8; padding: 15px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 10px;">
-            <p style="font-size: 0.9em; margin: 0; color: #172b4d;">
-                <strong>Configuración de Nómina:</strong> Al marcar SÍ, crearemos la etiqueta <strong>'NOMINA'</strong> con valores: 
-                <br>• <strong>CONFIDENCIAL:</strong> Solo visible para gestores autorizados.
-                <br>• <strong>NO CONFIDENCIAL:</strong> Visible para gestores generales.
-            </p>
-        </div>
-    </div>
-</div>
+                <div class="help-box">
+                    <strong>Regla de Oro:</strong> Los títulos de las columnas en su Excel no deben usar caracteres especiales, tildes ni 'Ñ'. Ej: AREA, SUCURSAL.
+                </div>
+                
+                <div class="example-section">
+                    <button type="button" class="btn-outline-lg" onclick="toggleElement('tablaEjemplo')" style="width: 100%; padding: 12px; cursor: pointer; border: 2px solid var(--accent); background: transparent; color: var(--accent); font-weight: bold; border-radius: 8px;">
+                        🔍 Ver Ejemplo de Estructura de Etiquetas (XLS)
+                    </button>
+                    
+                    <div id="tablaEjemplo" class="example-card" style="display: none; margin-top: 15px; border: 1px solid #c0c0c0; padding: 25px; background: #fdfdfd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                        <p style="margin-bottom: 15px; color: #333;"><strong>Estructura visual esperada en su planilla:</strong></p>
+                        <div class="table-responsive">
+                            <table class="demo-table" style="width: 100%; border-collapse: collapse; font-family: 'Segoe UI', Arial, sans-serif;">
+                                <thead>
+                                    <tr style="background: #217346; color: white;">
+                                        <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">AREA</th>
+                                        <th style="border: 1px solid #107c41; padding: 12px 15px; text-align: left;">SUCURSAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="background: white; color: #444;">
+                                    <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">VENTAS</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CABA</td></tr>
+                                    <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">IT</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CORDOBA</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 15px; color: #d9534f; font-size: 0.9em; font-style: italic;">
+                            * No incluya filas vacías ni formatos de colores en el archivo final.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top: 20px;">
+                    <label>Carga de Definición de Etiquetas (XLS/XLSX)</label> 
+                    <p class="help-text">Suba el archivo con los nombres de etiquetas y sus valores permitidos (Opcional).</p>
+                    <input type="file" id="archivoEtiquetas" name="archivoEtiquetas" accept=".xlsx, .xls"> 
+                </div>
+
+                <div class="input-group nom-conf">
+                    <label>¿Posee nómina confidencial?</label>
+                    <div class="radio-group" style="display: flex; gap: 20px; margin-bottom: 10px;">
+                        <label style="font-weight: normal;"><input type="radio" name="confidencial" value="no" checked onclick="toggleNominaExplicacion(false)"> No</label>
+                        <label style="font-weight: normal;"><input type="radio" name="confidencial" value="si" onclick="toggleNominaExplicacion(true)"> Sí</label>
+                    </div>
+                    
+                    <div id="boxNominaExplicacion" style="display: none; background: #fff5f8; padding: 15px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 10px;">
+                        <p style="font-size: 0.9em; margin: 0; color: #172b4d;">
+                            <strong>Configuración de Nómina:</strong> Al marcar SÍ, crearemos la etiqueta <strong>'NOMINA'</strong> con valores: 
+                            <br>• <strong>CONFIDENCIAL:</strong> Solo visible para gestores autorizados.
+                            <br>• <strong>NO CONFIDENCIAL:</strong> Visible para gestores generales.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             <div class="step">
                 <h3>4. Métodos de Firma</h3>
@@ -146,7 +145,7 @@
                 </div>
                 <div class="input-group">
                     <label>¿Qué tipo de Método de firma posee el Empleado?</label>
-                    <select id="firmaEmpleado" class="styled-select" onchange="checkFirmas()">
+                    <select id="firmaEmpleado" name="firmaEmpleado" class="styled-select" onchange="checkFirmas()">
                         <option value="electronica">Firma Electrónica</option>
                         <option value="digital">Firma Digital</option>
                         <option value="ambas">Ambas (Electrónica y Digital)</option>
@@ -155,7 +154,7 @@
 
                 <div id="boxComportamiento" class="input-group" style="display: block; background: #f9f9f9; padding: 20px; border-radius: 12px; border-left: 5px solid #2d44bb; margin-top: 10px;">
                     <label>Preferencia de firma para el Empleado:</label>
-                    <select class="styled-select">
+                    <select name="preferenciaFirma" class="styled-select">
                         <option value="masiva">Firma Masiva (Permite firmar varios a la vez)</option>
                         <option value="antiguo">Documento más antiguo (Firma obligatoria uno por uno)</option>
                     </select>
@@ -168,7 +167,7 @@
 
                 <div class="input-group">
                     <label>¿Qué tipo de Método de firma posee el Apoderado?</label>
-                    <select id="firmaApoderado" class="styled-select" onchange="checkFirmas()">
+                    <select id="firmaApoderado" name="firmaApoderado" class="styled-select" onchange="checkFirmas()">
                         <option value="electronica">Firma Electrónica</option>
                         <option value="digital">Firma Digital</option>
                         <option value="ambas">Ambas (Electrónica y Digital)</option>
@@ -177,7 +176,7 @@
 
                 <div id="boxProveedor" class="input-group" style="display: none; background: #f0f9ff; padding: 20px; border-radius: 12px; border-left: 5px solid #2d44bb; margin-top: 15px;">
                     <label style="margin-bottom: 10px; display: block;">Proveedor del certificado digital:</label>
-                    <select class="styled-select" style="margin-bottom: 20px;">
+                    <select name="proveedorDigital" class="styled-select" style="margin-bottom: 20px;">
                         <option value="">Seleccione un proveedor...</option>
                         <option value="lakaut">Lakaut</option>
                         <option value="encode">Encode</option>
@@ -195,7 +194,7 @@
                         </a>
 
                         <label class="check-item-simple" style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85em; cursor: pointer; color: #444;">
-                            <input type="checkbox" id="checkIT" required>
+                            <input type="checkbox" id="checkIT" name="checkIT" required>
                             <span>Confirmo que he recibido el instalador y mi equipo de IT habilitó los accesos necesarios.</span>
                         </label>
                     </div>
@@ -203,32 +202,26 @@
             </div>
 
             <div class="step">
-    <h3>5. Tipos de Liquidaciones</h3>
-    <div class="help-box">
-        <strong>Nota:</strong> Seleccione todos los tipos de liquidaciones que utiliza su empresa. Esto nos ayudará a configurar correctamente la plataforma.
-    </div>
-    <div class="checkbox-grid">
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> Recibo de Sueldo (Mensual)</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> Otros Conceptos (Quincenas)</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> SAC (Aguinaldo)</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> Vacaciones</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq" > Bonos</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> Liquidación Final</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> Ganancias (Anual F.1357)</label>
-        <label class="check-item"><input type="checkbox" name="tipo_liq"> Ganancias (Anticipo Mensual)</label>
-    </div>
-</div>
+                <h3>5. Tipos de Liquidaciones</h3>
+                <div class="help-box">
+                    <strong>Nota:</strong> Seleccione todos los tipos de liquidaciones que utiliza su empresa. Esto nos ayudará a configurar correctamente la plataforma.
+                </div>
+                <div class="checkbox-grid">
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Recibo de Sueldo (Mensual)</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Otros Conceptos (Quincenas)</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> SAC (Aguinaldo)</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Vacaciones</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Bonos</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Liquidación Final</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Ganancias (Anual F.1357)</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Ganancias (Anticipo Mensual)</label>
+                </div>
+            </div>
 
             <div class="step">
                 <h3>6. Documentación Técnica</h3>
                 <div class="help-box">
-                    <strong>Nota:</strong> Nota: Necesitamos que subas un ejemplo de cada tipo de recibo que usás (Mensual, SAC, Vacaciones, etc.). Esto sirve para que el sistema "aprenda" a leer automáticamente el CUIL y el nombre del empleado en cada modelo y no tengas que cargarlos a mano.
-
-¿Qué tenés que subir?
-
-Ejemplos de liquidaciones (PDF): Subí un archivo de cada variante que uses.
-
-Importante: El PDF debe ser "leíble" (que puedas seleccionar el texto con el mouse), no una foto o un escaneo borroso.
+                    <strong>Nota:</strong> Necesitamos que subas un ejemplo de cada tipo de recibo que usás (Mensual, SAC, Vacaciones, etc.). Esto sirve para que el sistema "aprenda" a leer automáticamente el CUIL y el nombre del empleado.
                 </div>
 
                 <div class="input-group">

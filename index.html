@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wizard de Delivery - Humanage</title>
+    <title>Wizard RSD - Humanage</title>
     
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
                 <img src="assets/logo-humanage.png" alt="Humanage" style="max-width: 250px; margin-bottom: 15px;">
             </div>
             <h1>Kick-off de Implementación</h1>
-            <p class="subtitle">Formulario de Relevamiento para Configuración de Plataforma</p>
+            <p class="subtitle">Formulario de Relevamiento para Configuración de Plataforma para el modulo Recibos de Sueldo Digital</p>
         </header>
 
         <form id="deliveryForm">
@@ -32,63 +32,57 @@
                 <div class="input-group"><label>Nombre de la Empresa / Grupo*</label><input type="text" id="empresa" required></div>
             </div>
 
-            <div class="step">
-                <h3>2. Configuración de Empresa y Entidades</h3>
-                <div class="help-box">
-                    <strong>Importante:</strong> Complete las Razones Sociales que componen su Grupo Empresarial. La primera es obligatoria; las demás son opcionales.
-                </div>
-                <div class="rs-container">
-                    <label>Razones Sociales del Grupo*</label>
-                    <table class="input-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 5%;">#</th>
-                                <th style="width: 50%;">Nombre de la Razón Social (CUIT)</th>
-                                <th style="width: 20%;">Cant. Emp.</th>
-                                <th style="width: 25%;">¿Lleva Logo?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><input type="text" name="rs1" placeholder="Ej: Empresa S.A. - 30-12345678-9" required></td>
-                                <td><input type="text" name="cant1" placeholder="Ej: 150"></td>
-                                <td><select class="styled-select"><option value="no">No</option><option value="si">Sí</option></select></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><input type="text" name="rs2" placeholder="Opcional"></td>
-                                <td><input type="text" name="cant2"></td>
-                                <td><select class="styled-select"><option value="no">No</option><option value="si">Sí</option></select></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><input type="text" name="rs3" placeholder="Opcional"></td>
-                                <td><input type="text" name="cant3"></td>
-                                <td><select class="styled-select"><option value="no">No</option><option value="si">Sí</option></select></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><input type="text" name="rs4" placeholder="Opcional"></td>
-                                <td><input type="text" name="cant4"></td>
-                                <td><select class="styled-select"><option value="no">No</option><option value="si">Sí</option></select></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><input type="text" name="rs5" placeholder="Opcional"></td>
-                                <td><input type="text" name="cant5"></td>
-                                <td><select class="styled-select"><option value="no">No</option><option value="si">Sí</option></select></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+          <div class="step">
+    <h3>2. Configuración de Empresa y Entidades</h3>
+    <div class="help-box">
+        <strong>Importante:</strong> Complete las Razones Sociales que componen su Grupo Empresarial. 
+        El sistema generará automáticamente las filas necesarias. El CUIT debe tener formato 30-XXXXXXXX-X.
+    </div>
+
+    <div class="input-group" style="margin-bottom: 20px; max-width: 300px;">
+        <label>¿Cuántas Razones Sociales desea configurar?*</label>
+        <select id="cantEmpresas" class="styled-select" onchange="generarFilasTabla()">
+    <option value="1">1 Empresa</option>
+    <option value="2">2 Empresas</option>
+    <option value="3">3 Empresas</option>
+    <option value="4">4 Empresas</option>
+    <option value="5">5 Empresas</option>
+    <option value="6">6 Empresas</option>
+    <option value="7">7 Empresas</option>
+    <option value="8">8 Empresas</option>
+    <option value="9">9 Empresas</option>
+    <option value="10">10 Empresas</option>
+</select>
+    </div>
+
+    <div class="rs-container">
+        <label>Razones Sociales del Grupo*</label>
+        <table class="input-table" id="tablaRS">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 35%;">Razón Social</th>
+                    <th style="width: 25%;">CUIT (Empresa)</th>
+                    <th style="width: 15%;">Cant. Emp.</th>
+                    <th style="width: 20%;">¿Lleva Logo?</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpoTablaRS">
+                </tbody>
+        </table>
+    </div>
+</div>
 
             <div class="step">
-                <h3>3. Metadatos (Etiquetas)</h3>
-                <p class="help-text">
-                    Las <strong>Etiquetas</strong> son metadatos asignados a los documentos. En Humanage, permiten filtrar búsquedas rápidas (ej: buscar por "Sector") y segmentar qué usuarios ven qué información.
-                </p>
+                <h3>3. Clasificación y Filtros (Etiquetas)</h3>
+                <div class="help-box">
+        <strong>¿Para qué sirven?</strong>
+        <ul style="margin-top: 10px; padding-left: 20px;">
+            <li><strong>Buscador Rápido:</strong> En lugar de revolver carpeta por carpeta, escribís un sector y el sistema te trae todo al toque.</li>
+            <li><strong>Permisos por Sector:</strong> Podés definir que un jefe vea solo lo que tiene el rótulo de su área.</li>
+            <li><strong>Organización Automática:</strong> El sistema acomoda los archivos solos según el rótulo que le pusimos.</li>
+        </ul>
+    </div>
 
                 <div class="help-box">
                     <strong>Regla de Oro:</strong> Los títulos de las columnas en su Excel no deben usar caracteres especiales, tildes ni 'Ñ'. Ej: AREA, SUCURSAL.
@@ -227,7 +221,13 @@
             <div class="step">
                 <h3>6. Documentación Técnica</h3>
                 <div class="help-box">
-                    <strong>Nota:</strong> Necesitamos ejemplos de cada variante para configurar las coordenadas de lectura automática de ID Fiscal en <strong>Humanage</strong>.
+                    <strong>Nota:</strong> Nota: Necesitamos que subas un ejemplo de cada tipo de recibo que usás (Mensual, SAC, Vacaciones, etc.). Esto sirve para que el sistema "aprenda" a leer automáticamente el CUIL y el nombre del empleado en cada modelo y no tengas que cargarlos a mano.
+
+¿Qué tenés que subir?
+
+Ejemplos de liquidaciones (PDF): Subí un archivo de cada variante que uses.
+
+Importante: El PDF debe ser "leíble" (que puedas seleccionar el texto con el mouse), no una foto o un escaneo borroso.
                 </div>
 
                 <div class="input-group">
@@ -239,7 +239,7 @@
                 <br>
 
                 <div class="input-group">
-                    <label>Subir Logos de la Empresa / OU Hijas</label>
+                    <label>Subir Logos de la Empresa</label>
                     <p class="help-text">Si posee diferentes logos para sus unidades de negocio, selecciónelos aquí.</p>
                     <input type="file" id="logosEmpresa" name="logosEmpresa[]" multiple>
                 </div>

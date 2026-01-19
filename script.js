@@ -128,7 +128,7 @@ function enviarFormulario(event) {
     console.log("--- OBJETO LISTO PARA API (JSON) ---");
     console.log(payload);
 
-    alert("Marcelo, el relevamiento se ha estructurado correctamente.\n\nDatos listos en consola para el equipo de Desarrollo.");
+    alert("El relevamiento se ha estructurado correctamente.\n\nDatos listos en consola para el equipo de Desarrollo.");
 }
 
 // 6. Inicialización

@@ -1,116 +1,154 @@
-/* CSS Arquitectónico - Versión Humanage Branding FINAL */
-:root { 
-    --primary: #2d44bb;      /* Azul institucional de Humanage */
-    --accent: #e91e63;       /* Rosa de botones y logos */
-    --text: #172b4d; 
-    --bg: #f8f9fc;           /* Fondo grisáceo muy suave de la plataforma */
-    --border: #e0e4f1;       /* Gris azulado sutil para bordes */
+/**
+ * Lógica de Arquitectura Humanage 
+ * Mrebori
+ */
+
+// 1. Manejo de la explicación de Nómina (Paso 3)
+function toggleNominaExplicacion(show) {
+    const box = document.getElementById('boxNominaExplicacion');
+    if (box) {
+        box.style.display = show ? 'block' : 'none';
+    }
 }
 
-body { 
-    font-family: 'Inter', sans-serif; 
-    background: var(--bg); 
-    color: var(--text); 
-    padding: 20px; 
-    line-height: 1.6; 
+// 2. Mostrar/Ocultar ejemplo de tabla Excel (Paso 3)
+function toggleElement(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+    }
 }
 
-.wizard-container { 
-    max-width: 850px; 
-    margin: auto; 
-    background: white; 
-    padding: 40px; 
-    border-radius: 12px; 
-    box-shadow: 0 8px 24px rgba(0,0,0,0.05); 
-    border-top: 6px solid var(--accent); 
+// 3. Generación Dinámica de Filas (Paso 2)
+// Esta función construye la tabla según la cantidad de empresas seleccionadas
+function generarFilasTabla() {
+    const cantidad = document.getElementById('cantEmpresas').value;
+    const tbody = document.getElementById('cuerpoTablaRS');
+    
+    if (!tbody) return;
+
+    tbody.innerHTML = ''; // Limpiamos la tabla
+
+    for (let i = 1; i <= cantidad; i++) {
+        const fila = `
+            <tr>
+                <td>${i}</td>
+                <td>
+                    <input type="text" name="rs${i}" placeholder="Ej: Empresa S.A." required>
+                </td>
+                <td>
+                    <input type="text" name="cuit${i}" 
+                           placeholder="30-12345678-9" 
+                           pattern="^(30|33|34)-[0-9]{8}-[0-9]$" 
+                           title="Debe ser un CUIT válido (30, 33 o 34)" 
+                           required>
+                </td>
+                <td>
+                    <input type="number" name="cant${i}" placeholder="150" required>
+                </td>
+                <td>
+                    <select class="styled-select" name="logo${i}">
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += fila;
+    }
 }
 
-header { border-bottom: 2px solid var(--border); margin-bottom: 30px; text-align: center; padding-bottom: 20px; }
-header h1 { color: var(--primary); margin-bottom: 5px; }
+// 4. Lógica de Firmas y Submenús (Paso 4)
+function checkFirmas() {
+    const fEmpleado = document.getElementById('firmaEmpleado').value;
+    const fApoderado = document.getElementById('firmaApoderado').value;
+    
+    const boxProveedor = document.getElementById('boxProveedor');
+    const boxComportamiento = document.getElementById('boxComportamiento');
 
-.step { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    if (fEmpleado === 'digital' || fEmpleado === 'ambas' || fApoderado === 'digital' || fApoderado === 'ambas') {
+        boxProveedor.style.display = 'block';
+    } else {
+        boxProveedor.style.display = 'none';
+    }
 
-/* --- MEJORA DE INPUTS (ESTILO HUMANAGE UI) --- */
-input[type="text"], 
-input[type="email"], 
-input[type="file"],
-.styled-select { 
-    width: 100%; 
-    padding: 12px 20px; 
-    border: 1px solid var(--border); 
-    border-radius: 25px; /* Forma redondeada tipo "píldora" */
-    background: white;
-    font-size: 0.95em;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    margin-top: 8px;
+    if (fEmpleado === 'electronica' || fEmpleado === 'ambas') {
+        boxComportamiento.style.display = 'block';
+    } else {
+        boxComportamiento.style.display = 'none';
+    }
 }
 
-input:focus, .styled-select:focus { 
-    outline: none; 
-    border-color: var(--primary); 
-    box-shadow: 0 0 0 3px rgba(45, 68, 187, 0.1); 
+// 5. Envío del Formulario Estructurado (Mapeo Profesional)
+function enviarFormulario(event) {
+    if (event) event.preventDefault();
+
+    const form = document.getElementById('deliveryForm');
+    const formData = new FormData(form);
+    
+    // 1. Capturamos datos básicos del Responsable
+    const payload = {
+        metadata: {
+            fecha_relevamiento: new Date().toISOString(),
+            version_wizard: "1.2"
+        },
+        responsable: {
+            nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
+            email: document.getElementById('correo').value,
+            empresa_grupo: document.getElementById('empresa').value
+        },
+        configuracion_tecnica: {
+            firma_empleado: document.getElementById('firmaEmpleado').value,
+            firma_apoderado: document.getElementById('firmaApoderado').value,
+            requiere_husigner: document.getElementById('checkIT').checked,
+            nomina_confidencial: formData.get('confidencial') === 'si'
+        },
+        entidades: [], // Aquí irán las N razones sociales
+        liquidaciones_seleccionadas: []
+    };
+
+    // 2. Mapeo dinámico de Razones Sociales
+    const totalRS = document.getElementById('cantEmpresas').value;
+    for (let i = 1; i <= totalRS; i++) {
+        payload.entidades.push({
+            id: i,
+            razon_social: formData.get(`rs${i}`),
+            cuit: formData.get(`cuit${i}`),
+            dotacion: formData.get(`cant${i}`),
+            lleva_logo: formData.get(`logo${i}`)
+        });
+    }
+
+    // 3. Captura de Checkboxes (Tipos de liquidación)
+    // Buscamos todos los checkboxes marcados en el paso 5
+    const checkboxes = document.querySelectorAll('.checkbox-grid input[type="checkbox"]:checked');
+    checkboxes.forEach(cb => {
+        payload.liquidaciones_seleccionadas.push(cb.parentElement.textContent.trim());
+    });
+
+    // log de seguridad para Marcelo
+    console.log("--- OBJETO LISTO PARA API (JSON) ---");
+    console.log(payload);
+
+    // 4. Feedback visual
+    alert("Marcelo, el relevamiento se ha estructurado correctamente.\n\nSe han procesado " + totalRS + " empresas y " + payload.liquidaciones_seleccionadas.length + " tipos de liquidación.");
 }
+// 6. Inicialización de estados al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    // Generamos la tabla inicial (1 empresa)
+    if (document.getElementById('cantEmpresas')) {
+        generarFilasTabla();
+    }
 
-label { 
-    font-weight: 600; 
-    color: var(--primary); 
-    font-size: 0.9em; 
-    margin-left: 10px; 
-}
+    // Verificamos firmas
+    if (document.getElementById('firmaEmpleado')) {
+        checkFirmas();
+    }
 
-/* --- TABLAS (LIMPIAS Y SIN BORDES NEGROS) --- */
-.rs-container { margin-top: 25px; }
-.input-table { 
-    width: 100%; 
-    border-collapse: separate; 
-    border-spacing: 0; 
-    margin-top: 10px; 
-    border: 1px solid var(--border); 
-    border-radius: 12px; 
-    overflow: hidden; 
-}
-
-.input-table th { 
-    background: #f0f2f9; 
-    padding: 15px; 
-    text-align: left; 
-    border-bottom: 1px solid var(--border); 
-    font-size: 0.85em; 
-    color: var(--primary); 
-    text-transform: uppercase;
-}
-
-.input-table td { border-bottom: 1px solid var(--border); padding: 5px; }
-.input-table tr:last-child td { border-bottom: none; }
-
-/* Input dentro de la tabla */
-.input-table input { 
-    border-radius: 0; 
-    border: none; 
-    padding: 12px; 
-    background: transparent; 
-}
-.input-table input:focus { 
-    background: #fff; 
-    border-radius: 20px; 
-    outline: 2px solid var(--accent); 
-}
-
-/* --- OTROS ELEMENTOS --- */
-.help-box { background: #eff2ff; padding: 15px; border-radius: 8px; font-size: 0.9em; margin: 15px 0; border-left: 5px solid var(--primary); color: var(--primary); }
-.help-box.warning { background: #fffae6; border-left-color: #ffab00; color: #856404; }
-
-.checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.check-item { background: #fafbfc; border: 1px solid var(--border); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; }
-.check-item:hover { background: #f0f2f9; border-color: var(--primary); }
-
-.btn-submit { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 35px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 20px; }
-.btn-submit:hover { background: #d81b60; box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3); }
-
-.btn-outline-lg { width: 100%; padding: 12px; background: white; border: 2px dashed var(--primary); color: var(--primary); cursor: pointer; border-radius: 25px; font-weight: 600; }
-.btn-outline-lg:hover { background: #f0f2f9; }
-
-.demo-table { width: 100%; border-collapse: collapse; font-size: 0.9em; border-radius: 8px; overflow: hidden; }
-.demo-table th, .demo-table td { border: 1px solid var(--border); padding: 10px; }
+    // Escuchamos el evento submit del formulario
+    const form = document.getElementById('deliveryForm');
+    if (form) {
+        form.addEventListener('submit', enviarFormulario);
+    }
+});

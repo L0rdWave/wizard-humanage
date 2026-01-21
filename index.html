@@ -20,26 +20,22 @@
 
         <form id="deliveryForm">
             <div class="step">
-                <h3>1. Responsable y Empresa</h3>
-                <div class="help-box">
-                    <strong>Nota:</strong> El responsable es la persona que gestionará la plataforma (Gestor de Accesos), no necesariamente quien completa este formulario.
-                </div>
+                <h3>1. Gestor de Accesos</h3> <div class="help-box">
+        La persona que gestionará la plataforma como administrador principal.
+    </div>
                 <div class="row">
                     <div class="input-group"><label>Nombre*</label><input type="text" id="nombre" name="nombre" required></div>
                     <div class="input-group"><label>Apellido*</label><input type="text" id="apellido" name="apellido" required></div>
                 </div>
                 <div class="input-group"><label>Correo Electrónico*</label><input type="email" id="correo" name="correo" required></div>
-                <div class="input-group"><label>Nombre de la Empresa / Grupo*</label><input type="text" id="empresa" name="empresa" required></div>
+        
             </div>
 
             <div class="step">
-                <h3>2. Configuración de Empresa y Entidades</h3>
-                <div class="help-box">
-                    <strong>Importante:</strong> Complete las Razones Sociales que componen su Grupo Empresarial. 
-                    El sistema generará automáticamente las filas necesarias. El CUIT debe tener formato 30-XXXXXXXX-X.
-                </div>
+                <h3>2. Entidades</h3>
+                
 
-                <div class="input-group" style="margin-bottom: 20px; max-width: 300px;">
+                <div class="input-group" style="margin-bottom: 20px; max-width: 450px;">
                     <label>¿Cuántas Razones Sociales desea configurar?*</label>
                     <select id="cantEmpresas" class="styled-select" onchange="generarFilasTabla()">
                         <option value="1">1 Empresa</option>
@@ -63,7 +59,7 @@
                                 <th style="width: 5%;">#</th>
                                 <th style="width: 35%;">Razón Social</th>
                                 <th style="width: 25%;">CUIT (Empresa)</th>
-                                <th style="width: 15%;">Cant. Emp.</th>
+                                <th style="width: 15%;">Cantidad empleados</th>
                                 <th style="width: 20%;">¿Lleva Logo?</th>
                             </tr>
                         </thead>
@@ -74,19 +70,18 @@
             </div>
 
             <div class="step">
-                <h3>3. Clasificación y Filtros (Etiquetas)</h3>
+                <h3>3. Etiquetas</h3>
                 <div class="help-box">
-                    <strong>¿Para qué sirven?</strong>
-                    <ul style="margin-top: 10px; padding-left: 20px;">
-                        <li><strong>Buscador Rápido:</strong> En lugar de revolver carpeta por carpeta, escribís un sector y el sistema te trae todo al toque.</li>
-                        <li><strong>Permisos por Sector:</strong> Podés definir que un jefe vea solo lo que tiene el rótulo de su área.</li>
-                        <li><strong>Organización Automática:</strong> El sistema acomoda los archivos solos según el rótulo que le pusimos.</li>
-                    </ul>
-                </div>
-
-                <div class="help-box">
-                    <strong>Regla de Oro:</strong> Los títulos de las columnas en su Excel no deben usar caracteres especiales, tildes ni 'Ñ'. Ej: AREA, SUCURSAL.
-                </div>
+    <strong>¿Para qué sirven?</strong>
+    <ul style="margin-top: 10px; padding-left: 20px;">
+        <li>
+            Permiten clasificar archivos mediante una <strong>Categorías</strong> y <strong>Valores</strong> seleccionables.<br><br>
+            <em>Ejemplo:</em><br>
+            Categoría: <strong>Área</strong> / Valores: <strong>IT, RRHH, ADM</strong><br><br>
+            Al etiquetar, el sistema vincula el archivo a su sector, aplica permisos de privacidad y permite encontrarlo al instante sin buscar por carpetas.
+        </li>
+    </ul>
+</div>
                 
                 <div class="example-section">
                     <button type="button" class="btn-outline-lg" onclick="toggleElement('tablaEjemplo')" style="width: 100%; padding: 12px; cursor: pointer; border: 2px solid var(--accent); background: transparent; color: var(--accent); font-weight: bold; border-radius: 8px;">
@@ -104,20 +99,20 @@
                                     </tr>
                                 </thead>
                                 <tbody style="background: white; color: #444;">
-                                    <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">VENTAS</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CABA</td></tr>
+                                    <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">RRHH</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CABA</td></tr>
                                     <tr><td style="border: 1px solid #d1d1d1; padding: 12px 15px; font-weight: 500;">IT</td><td style="border: 1px solid #d1d1d1; padding: 12px 15px;">CORDOBA</td></tr>
                                 </tbody>
                             </table>
                         </div>
                         <p style="margin-top: 15px; color: #d9534f; font-size: 0.9em; font-style: italic;">
-                            * No incluya filas vacías ni formatos de colores en el archivo final.
+                            * No incluya filas vacías ni formatos de colores en el archivo final. No utilizar caracteres especiales, tildes ni 'Ñ'.
                         </p>
                     </div>
                 </div>
 
                 <div class="input-group" style="margin-top: 20px;">
                     <label>Carga de Definición de Etiquetas (XLS/XLSX)</label> 
-                    <p class="help-text">Suba el archivo con los nombres de etiquetas y sus valores permitidos (Opcional).</p>
+                    <p class="help-text">Suba el archivo de etiquetas con los nombres de las Categorías y Valores.</p>
                     <input type="file" id="archivoEtiquetas" name="archivoEtiquetas" accept=".xlsx, .xls"> 
                 </div>
 
@@ -141,10 +136,10 @@
             <div class="step">
                 <h3>4. Métodos de Firma</h3>
                 <div class="help-box">
-                    <strong>Nota:</strong> Seleccione los métodos de firma que utilizan sus empleados y apoderados. Según su elección, se mostrarán opciones adicionales.
+                    <strong>Nota:</strong> Seleccione los métodos de firma que utilizan sus empleados y apoderados.
                 </div>
                 <div class="input-group">
-                    <label>¿Qué tipo de Método de firma posee el Empleado?</label>
+                    <label>¿Qué tipo de Método de firma usa el Empleado?</label>
                     <select id="firmaEmpleado" name="firmaEmpleado" class="styled-select" onchange="checkFirmas()">
                         <option value="electronica">Firma Electrónica</option>
                         <option value="digital">Firma Digital</option>
@@ -155,18 +150,22 @@
                 <div id="boxComportamiento" class="input-group" style="display: block; background: #f9f9f9; padding: 20px; border-radius: 12px; border-left: 5px solid #2d44bb; margin-top: 10px;">
                     <label>Preferencia de firma para el Empleado:</label>
                     <select name="preferenciaFirma" class="styled-select">
-                        <option value="masiva">Firma Masiva (Permite firmar varios a la vez)</option>
-                        <option value="antiguo">Documento más antiguo (Firma obligatoria uno por uno)</option>
+                        <option value="masiva">Firma Masiva</option>
+                        <option value="antiguo">Documento más antiguo</option>
                     </select>
-                    <p class="help-text" style="margin-top:10px;">
-                        <strong>Nota técnica:</strong> La firma masiva agiliza procesos de alto volumen. La opción "más antiguo" asegura el orden cronológico.
-                    </p>
+                   <p class="help-text" style="margin-top: 15px; font-size: 0.9em; color: #555;">
+                    <span style="display: block; margin-bottom: 5px;"><strong>Opciones de firma:</strong></span>
+                        <ul style="padding-left: 20px; margin: 0;">
+                        <li style="margin-bottom: 5px;"><strong>Firma Masiva:</strong> Permite firmar múltiples documentos a la vez.</li>
+                        <li><strong>Por Antigüedad:</strong> Firma obligatoria uno por uno en orden cronológico.</li>
+                    </ul>
+                </p>
                 </div>
 
                 <br>
 
                 <div class="input-group">
-                    <label>¿Qué tipo de Método de firma posee el Apoderado?</label>
+                    <label>¿Qué tipo de Método de firma usa el Apoderado?</label>
                     <select id="firmaApoderado" name="firmaApoderado" class="styled-select" onchange="checkFirmas()">
                         <option value="electronica">Firma Electrónica</option>
                         <option value="digital">Firma Digital</option>
@@ -184,10 +183,10 @@
                     </select>
 
                     <div style="background: white; border: 1px dashed #2d44bb; padding: 15px; border-radius: 8px;">
-    <p style="font-size: 0.9em; margin-top: 0; color: #172b4d;">
-        <strong>⚠️ Requisito Crítico para Firma Digital:</strong>
-        <br>Para firmar con certificados locales, es necesario instalar la aplicación <strong>HuSigner</strong> y cumplir con los requisitos de red.
-    </p>
+                    <p style="font-size: 0.9em; margin-top: 0; color: #172b4d;">
+                    <strong>⚠️ Requisito Crítico para Firma Digital:</strong>
+                    <br>Para firmar con certificados locales, es necesario instalar la aplicación <strong>HuSigner</strong>
+                </p>
     
     <a href="assets/Husigner-Instalacion-y-requisitos-tecnicos.pdf" class="download-link" download style="display: inline-block; margin-bottom: 15px; text-decoration: none; font-weight: bold; color: #2d44bb;">
         📄 Descargar: Husigner - Instalación y requisitos técnicos
@@ -207,8 +206,8 @@
                     <strong>Nota:</strong> Seleccione todos los tipos de liquidaciones que utiliza su empresa. Esto nos ayudará a configurar correctamente la plataforma.
                 </div>
                 <div class="checkbox-grid">
-                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Recibo de Sueldo (Mensual)</label>
-                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Otros Conceptos (Quincenas)</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Recibo de Sueldo Mensual</label>
+                    <label class="check-item"><input type="checkbox" name="tipo_liq"> Recibo de Sueldo Quincenas</label>
                     <label class="check-item"><input type="checkbox" name="tipo_liq"> SAC (Aguinaldo)</label>
                     <label class="check-item"><input type="checkbox" name="tipo_liq"> Vacaciones</label>
                     <label class="check-item"><input type="checkbox" name="tipo_liq"> Bonos</label>
@@ -218,28 +217,27 @@
                 </div>
             </div>
 
-            <div class="step">
-                <h3>6. Documentación Técnica</h3>
+            <div class="step">             
                 <div class="help-box">
-                    <strong>Nota:</strong> Necesitamos que subas un ejemplo de cada tipo de recibo que usás (Mensual, SAC, Vacaciones, etc.). Esto sirve para que el sistema "aprenda" a leer automáticamente el CUIL y el nombre del empleado.
+                    Necesitamos que subas un ejemplo de cada tipo de recibo que usás (Mensual, SAC, Vacaciones, etc.).
                 </div>
 
                 <div class="input-group">
-                    <label>Subir ejemplos de liquidaciones (PDF OCR)*</label>
-                    <p class="help-text">Seleccione todos los archivos necesarios (Ej: Recibo Mensual, SAC, F.1357, etc.).</p>
+                    <label>Ejemplos de liquidaciones (PDF OCR)*</label>
+                    <p class="help-text">Adjúntelos a continuación. (Ej: Recibo Mensual, SAC, F.1357, etc.).</p>
                     <input type="file" id="ejemplosPDF" name="ejemplosPDF[]" multiple required>
                 </div>
 
                 <br>
 
                 <div class="input-group">
-                    <label>Subir Logos de la Empresa</label>
-                    <p class="help-text">Si posee diferentes logos para sus unidades de negocio, selecciónelos aquí.</p>
+                    <label>Logos de las Entidades</label>
+                    <p class="help-text">Si utiliza logotipos para sus unidades de negocio, adjúntelos a continuación.</p>
                     <input type="file" id="logosEmpresa" name="logosEmpresa[]" multiple>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit">Finalizar Relevamiento</button>
+            <button type="submit" class="btn-submit">Finalizar</button>
         </form>
     </div>
     <script src="script.js"></script>

@@ -63,16 +63,16 @@ function checkFirmas() {
     const boxProveedor = document.getElementById('boxProveedor');
     const boxComportamiento = document.getElementById('boxComportamiento');
 
-    if (fEmpleado === 'digital' || fEmpleado === 'ambas' || fApoderado === 'digital' || fApoderado === 'ambas') {
-        if (boxProveedor) boxProveedor.style.display = 'block';
-    } else {
-        if (boxProveedor) boxProveedor.style.display = 'none';
+    // Lógica para Proveedor (Aparece si alguien usa Digital)
+    const usaDigital = (fEmpleado === 'digital' || fEmpleado === 'ambas' || fApoderado === 'digital' || fApoderado === 'ambas');
+    if (boxProveedor) {
+        boxProveedor.style.display = usaDigital ? 'block' : 'none';
     }
 
-    if (fEmpleado === 'electronica' || fEmpleado === 'ambas') {
-        if (boxComportamiento) boxComportamiento.style.display = 'block';
-    } else {
-        if (boxComportamiento) boxComportamiento.style.display = 'none';
+    // Lógica para Comportamiento (Aparece si el Empleado usa Electrónica)
+    const usaElectronica = (fEmpleado === 'electronica' || fEmpleado === 'ambas');
+    if (boxComportamiento) {
+        boxComportamiento.style.display = usaElectronica ? 'block' : 'none';
     }
 }
 

@@ -55,7 +55,7 @@ function generarFilasTabla() {
     }
 }
 
-// 4. Lógica de Firmas y Submenús (Paso 4) - CORREGIDO
+// 4. Lógica de Firmas y Submenús (Paso 4)
 function checkFirmas() {
     const fEmpleado = document.getElementById('firmaEmpleado').value;
     const fApoderado = document.getElementById('firmaApoderado').value;
@@ -63,32 +63,58 @@ function checkFirmas() {
     const boxProveedor = document.getElementById('boxProveedor');
     const boxComportamiento = document.getElementById('boxComportamiento');
 
-    // Lógica para mostrar caja de proveedor (Lakaut/Encode)
     if (fEmpleado === 'digital' || fEmpleado === 'ambas' || fApoderado === 'digital' || fApoderado === 'ambas') {
-        boxProveedor.style.display = 'block';
+        if (boxProveedor) boxProveedor.style.display = 'block';
     } else {
-        boxProveedor.style.display = 'none';
+        if (boxProveedor) boxProveedor.style.display = 'none';
     }
 
-    // Lógica para mostrar comportamiento de firma (Masiva/Antiguo)
     if (fEmpleado === 'electronica' || fEmpleado === 'ambas') {
-        boxComportamiento.style.display = 'block';
+        if (boxComportamiento) boxComportamiento.style.display = 'block';
     } else {
-        boxComportamiento.style.display = 'none';
+        if (boxComportamiento) boxComportamiento.style.display = 'none';
     }
 }
 
-// 5. Envío del Formulario Estructurado (Mapeo Profesional)
-function enviarFormulario(event) {
+// 5. Envío del Formulario Estructurado (Mapeo y Validaciones)
+async function enviarFormulario(event) {
     if (event) event.preventDefault();
 
     const form = document.getElementById('deliveryForm');
+    const btnSubmit = form.querySelector('.btn-submit');
     const formData = new FormData(form);
     
+    // --- VALIDACIONES TÉCNICAS ---
+    const fEmpleado = document.getElementById('firmaEmpleado').value;
+    const fApoderado = document.getElementById('firmaApoderado').value;
+    const proveedor = document.querySelector('select[name="proveedorDigital"]')?.value;
+
+    if ((fEmpleado.includes('digital') || fApoderado.includes('digital')) && (!proveedor || proveedor === "")) {
+        alert("⚠️ Atención: Debe seleccionar un proveedor de certificado (Lakaut/Encode) para continuar.");
+        return;
+    }
+
+    const valoresTabla = Array.from(formData.entries());
+    const llevaLogo = valoresTabla.some(([key, value]) => key.startsWith('logo') && value === 'si');
+    const inputLogos = document.getElementById('logosEmpresa');
+
+    if (llevaLogo && inputLogos && inputLogos.files.length === 0) {
+        alert("⚠️ Atención: Indicó que una entidad lleva logo, pero no ha adjuntado archivos en el Paso 6.");
+        return;
+    }
+
+    // --- PREPARACIÓN DE PAYLOAD (Alineado con Dashboard) ---
+    const fileInput = document.getElementById('ejemplosPDF');
+    const nombresArchivos = fileInput ? Array.from(fileInput.files).map(f => f.name) : [];
+    
+    const inputEtiquetas = document.getElementById('archivoEtiquetas');
+    const refEtiquetas = inputEtiquetas?.files[0] ? inputEtiquetas.files[0].name : "Sin archivo adjunto";
+
     const payload = {
         metadata: {
             fecha_relevamiento: new Date().toISOString(),
-            version_wizard: "1.2"
+            version_wizard: "1.2",
+            arquitecto: "Vans - Rebori Marcelo"
         },
         responsable: {
             nombre: document.getElementById('nombre').value,
@@ -97,17 +123,20 @@ function enviarFormulario(event) {
             empresa_grupo: document.getElementById('empresa').value
         },
         configuracion_tecnica: {
-            firma_empleado: document.getElementById('firmaEmpleado').value,
-            firma_apoderado: document.getElementById('firmaApoderado').value,
-            // Validación de seguridad: si no existe el checkbox en pantalla, es false
-            requiere_husigner: document.getElementById('checkIT') ? document.getElementById('checkIT').checked : false,
-            nomina_confidencial: formData.get('confidencial') === 'si'
+            firma_empleado: fEmpleado,
+            firma_apoderado: fApoderado,
+            preferencia_firma_empleado: document.querySelector('select[name="preferenciaFirma"]')?.value || "n/a",
+            proveedor_digital: proveedor || "no aplica",
+            confirmacion_husigner_it: document.getElementById('checkIT')?.checked || false,
+            nomina_confidencial: formData.get('confidencial') === 'si',
+            archivo_etiquetas_referencia: refEtiquetas
         },
+        archivos_adjuntos_nombres: nombresArchivos, 
         entidades: [],
         liquidaciones_seleccionadas: []
     };
 
-    // Mapeo dinámico de Razones Sociales
+    // Mapeo de Entidades
     const totalRS = document.getElementById('cantEmpresas').value;
     for (let i = 1; i <= totalRS; i++) {
         payload.entidades.push({
@@ -119,16 +148,38 @@ function enviarFormulario(event) {
         });
     }
 
-    // Captura de Checkboxes
+    // Mapeo de Liquidaciones (Limpia el texto del label)
     const checkboxes = document.querySelectorAll('.checkbox-grid input[type="checkbox"]:checked');
     checkboxes.forEach(cb => {
-        payload.liquidaciones_seleccionadas.push(cb.parentElement.textContent.trim());
+        const texto = cb.parentElement.innerText.trim();
+        payload.liquidaciones_seleccionadas.push(texto);
     });
 
-    console.log("--- OBJETO LISTO PARA API (JSON) ---");
-    console.log(payload);
+    // --- PROCESO DE ENVÍO ---
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = "Procesando...";
 
-    alert("El relevamiento se ha estructurado correctamente.\n\nDatos listos en consola para el equipo de Desarrollo.");
+    try {
+        const response = await fetch('http://localhost:5094/api/relevamiento', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert("¡Éxito! El relevamiento ha sido guardado y ya está disponible en el Dashboard.");
+            form.reset();
+            generarFilasTabla(); 
+        } else {
+            alert("Error en el servidor. Revisa la consola de .NET.");
+        }
+    } catch (error) {
+        console.error("Error crítico:", error);
+        alert("Error de conexión: El motor .NET está apagado.");
+    } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = "Finalizar Relevamiento";
+    }
 }
 
 // 6. Inicialización
